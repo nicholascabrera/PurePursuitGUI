@@ -28,7 +28,10 @@ public class LinePanel extends JPanel implements ActionListener{
     private Path path = new Path();
 
     public LinePanel(){
-        this.setPreferredSize(new Dimension(640, 480));
+        this.setPreferredSize(new Dimension(859, 500));
+
+        //dimension of the field scaled down by 2 is 799 x 410.
+
         this.addMouseListener(mouseHandler);
         this.addMouseMotionListener(mouseHandler);
 
@@ -61,6 +64,9 @@ public class LinePanel extends JPanel implements ActionListener{
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
+        g.setColor(Color.black);
+        g2d.setStroke(new BasicStroke(2, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL));
+        g.drawRect(30, 40, 799, 410);
         g2d.setColor(Color.blue);
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.setStroke(new BasicStroke(8, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL));

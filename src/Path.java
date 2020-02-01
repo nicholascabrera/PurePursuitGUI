@@ -107,10 +107,10 @@ public class Path extends ArrayList<Points>{
 	**/
 	
 	public int[] numPointForArray(double dist) {
-		int[] numPointss = new int[size()-1];
-		for(int i = 0; i < numPointss.length; i++)
-			numPointss[i] = (int)((get(i).distFrom(get(i+1)))/dist)-1;
-		return numPointss;
+		int[] numPoints = new int[size()-1];
+		for(int i = 0; i < numPoints.length; i++)
+			numPoints[i] = (int)((get(i).distFrom(get(i+1)))/dist)-1;
+		return numPoints;
 	}
 	
 	public static Path copyPath(Path yuh) {

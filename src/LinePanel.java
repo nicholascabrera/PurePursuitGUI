@@ -1,5 +1,4 @@
 import java.awt.BasicStroke;
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
@@ -48,8 +47,8 @@ public class LinePanel extends JPanel implements ActionListener{
             double weight_smooth = 0.8; //anywhere between 0.75 and 0.98
             double tol = 0.001;
             double a = 1 - weight_smooth;
-            Path p = new Path(path);
-            int[] numPoints = p.numPointForArray(6);
+            Path p = new Path(points);
+            int[] numPoints = p.numPointForArray(20);
             
             path = new Path(p.generatePath(numPoints));
             path = path.smoother( a, weight_smooth, tol);
@@ -89,13 +88,10 @@ public class LinePanel extends JPanel implements ActionListener{
         }
     }    
 
-    private class ControlPanel extends JPanel{}
-
     private void display() {
         JFrame f = new JFrame("LinePanel");
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.add(this);
-        f.add(new ControlPanel(), BorderLayout.SOUTH);
         f.pack();
         f.setLocationRelativeTo(null);
         f.setVisible(true);

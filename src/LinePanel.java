@@ -34,10 +34,12 @@ public class LinePanel extends JPanel implements ActionListener{
         this.addMouseMotionListener(mouseHandler);
 
         this.smooth = new JButton("Smooth Curve");
-        smooth.setMnemonic(KeyEvent.VK_S);
-        smooth.setActionCommand("smooth");
-        smooth.addActionListener(this);
-        smooth.setToolTipText("Click this button to smooth the drawn path.");
+        this.smooth.setMnemonic(KeyEvent.VK_S);
+        this.smooth.setActionCommand("smooth");
+        this.smooth.addActionListener(this);
+        this.smooth.setToolTipText("Click this button to smooth the drawn path.");
+
+        add(this.smooth);
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -52,6 +54,7 @@ public class LinePanel extends JPanel implements ActionListener{
             path = new Path(p.generatePath(numPoints));
             path = path.smoother( a, weight_smooth, tol);
             points = path.pathToArrayList();
+            repaint();
         }
     }
 

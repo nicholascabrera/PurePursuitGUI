@@ -103,7 +103,7 @@ public class Path extends ArrayList<Points>{
 
 	/**
 	The generatePath method uses the numPointsForArray method to determine the amount
-	of Pointss should go into a line segment based on the distance between each Points
+	of points that should go into a line segment based on the distance between each point
 	**/
 	
 	public int[] numPointForArray(double dist) {
@@ -124,16 +124,16 @@ public class Path extends ArrayList<Points>{
 	}
 	
 	/**
-	The generate path class is the class that injects Pointss into the path. to do 
+	The generate path class is the class that injects points into the path. To do 
 	this,it takes the x and y dimensions of the line segment, divides that number by 
-	the number of Pointss you want to be in that segment + 1(because the last Points
-	will always be the end of the line segment, to get four Pointss into a line 
-	segment you must divide it by 5) to get the distance each Points will be away 
-	from each other. Then, it adds the first Points, injects the Pointss, and at the 
-	end of the algorithm, adds the last Points.
+	the number of points you want to be in that segment + 1(because the last point
+	will always be the end of the line segment, to get four points into a line 
+	segment you must divide it by 5) to get the distance each point will be away 
+	from each other. Then, it adds the first point, injects the points, and at the 
+	end of the algorithm, adds the endpoint.
 	
 	The function of the double for loop is this, the first for loop will loop through 
-	each line segment, and the second for loop is used to inject the Pointss onto the 
+	each line segment, and the second for loop is used to inject the points onto the 
 	path.
 	**/
 	
@@ -170,7 +170,10 @@ public class Path extends ArrayList<Points>{
 	/**
 	This method calculates the curve.
 	It takes a path, and parameters a, b, and tolerance. This algorithm is borrowed from Team 2168, and it is
-	recommended that b be within .75 and .98, with a set to 1 - b, and tolerance = 0.001.
+	recommended that b be within .75 and .98, with a set to 1 - b, and tolerance = 0.001. Basically I don't really
+	know exactly what is going on here, however a good amount of distance between each point, or the smoother is
+	less effective. I have found that 9-15 inches is usually a good number. This can be set when numPointsForArray
+	is called.
 	**/
 
 	public static double[][] smoother(double[][] path, double a, double b, double tolerance) {

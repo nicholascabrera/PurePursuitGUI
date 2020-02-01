@@ -22,15 +22,16 @@ public class LinePanel extends JPanel implements ActionListener{
 
     private JButton smooth;
 
-    private static final long serialVersionUID = 8298251132940870997L;
+    private static final long serialVersionUID = 1L;
     private MouseHandler mouseHandler = new MouseHandler();
     private ArrayList<Points> points = new ArrayList<Points>();
     private Path path = new Path();
 
     public LinePanel(){
-        this.setPreferredSize(new Dimension(859, 500));
+        this.setPreferredSize(new Dimension(689, 413));
 
-        //dimension of the field scaled down by 2 is 799 x 410.
+        //dimension of the field not scaled is about 629in x 323in(this is truncating the last 1/4in).
+        //dimension of the window is height + 60 x height + 90(for aesthetic reasons)(I know its ugly, shut up)
 
         this.addMouseListener(mouseHandler);
         this.addMouseMotionListener(mouseHandler);
@@ -39,24 +40,24 @@ public class LinePanel extends JPanel implements ActionListener{
         this.smooth.setMnemonic(KeyEvent.VK_S);
         this.smooth.setActionCommand("smooth");
         this.smooth.addActionListener(this);
-        this.smooth.setToolTipText("Click this button to smooth the drawn path.");
+        this.smooth.setToolTipText("Click this button to smooth the drawn path, or Alt-S");
 
         add(this.smooth);
     }
 
     public void actionPerformed(ActionEvent e) {
-        if("smooth".equals(e.getActionCommand())){
-
-            double weight_smooth = 0.8; //anywhere between 0.75 and 0.98
-            double tol = 0.001;
-            double a = 1 - weight_smooth;
-            Path p = new Path(points);
-            int[] numPoints = p.numPointForArray(20);
+        if("smooth".equals(e.getActionCommand()) && this.points.size() > 0){
+            double weight_smooth = 0.8;                     //anywhere between 0.75 and 0.98
+            double tol = 0.001;                             //the tolerance of values
+            double a = 1 - weight_smooth;                   //i don't really know
+            Path p = new Path(this.points);                      //instantiating a new path, with the same points as the input
+            int[] numPoints = p.numPointForArray(12);       //goto Path.java--> numPointForArray() for description
             
-            path = new Path(p.generatePath(numPoints));
-            path = path.smoother( a, weight_smooth, tol);
-            points = path.pathToArrayList();
-            repaint();
+            this.path = new Path(p.generatePath(numPoints));     //goto Path.java--> generatePath() for description
+            this.path = path.smoother(a, weight_smooth, tol);    //goto Path.java--> smoother() for description
+            this.points = path.pathToArrayList();                
+            //converts the path from a Path object back into an ArrayList of points for easy repainting.
+            repaint();                                      //repaint using the new smoothed path
         }
     }
 
@@ -64,22 +65,29 @@ public class LinePanel extends JPanel implements ActionListener{
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
+
+        //setting draw preferences
         g.setColor(Color.black);
-        g2d.setStroke(new BasicStroke(2, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL));
-        g.drawRect(30, 40, 799, 410);
-        g2d.setColor(Color.blue);
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2d.setStroke(new BasicStroke(8, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL));
-        for(int i = 0; i < points.size(); i++) {
-            if(i > 0){
-                Points p1 = new Points(points.get(i));
-                Points p2 = new Points(points.get(i-1));
-                g.fillOval((int)p1.getX() - 3, (int)p1.getY() - 3, 6, 6);
-                g.drawLine((int)p1.getX(), (int)p1.getY(), (int)p2.getX(), (int)p2.getY());
+        g2d.setStroke(new BasicStroke(2, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL));
+
+        //drawing the field
+        g.drawRect(30, 40, 629, 323); //perimeter of the field
+
+
+        //drawing the points the user inputs
+        for(int i = 0; i < points.size(); i++) {        //interate through all points and redraw everytime a new point is added
+            if(i > 0){//if this is not the first point
+                //draw a line between the point before and the current point
+                Points p1 = new Points(points.get(i));                      //get the current point
+                Points p2 = new Points(points.get(i-1));                    //get the last point drawn
+                g.fillOval((int)p1.getX() - 3, (int)p1.getY() - 3, 6, 6);   //drawing the point as a small circle
+                g.drawLine((int)p1.getX(), (int)p1.getY(), (int)p2.getX(), (int)p2.getY());  //draw a line between the two points
             }
-            else{
-                Points p = new Points(points.get(i));
-                g.fillOval((int)p.getX() - 3, (int)p.getY() - 3, 6, 6);
+            else{//if it is the first point
+                //just draw the point, no lines
+                Points p = new Points(points.get(i));                       //getting the point
+                g.fillOval((int)p.getX() - 3, (int)p.getY() - 3, 6, 6);     //drawing the point as a small circle
             }
         }
     }
@@ -95,7 +103,7 @@ public class LinePanel extends JPanel implements ActionListener{
     }    
 
     private void display() {
-        JFrame f = new JFrame("LinePanel");
+        JFrame f = new JFrame("Pure Pursuit UI - Field to Scale");
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.add(this);
         f.pack();

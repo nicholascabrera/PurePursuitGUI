@@ -1,7 +1,14 @@
+/**
+ * Author: Nicholas P. Cabrera
+ * Version: 2.1
+ * Date: Feb 5, 2020
+ */
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -9,22 +16,29 @@ import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.ActionListener;
 
 import java.util.ArrayList;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class LinePanel extends JPanel implements ActionListener{
 
-    private JButton smooth;
 
     private static final long serialVersionUID = 1L;
+
+    private JButton smooth;
+
+    private JLabel pointLabel;
+
     private MouseHandler mouseHandler = new MouseHandler();
+
     private ArrayList<Points> points = new ArrayList<Points>();
+    
     private Path path = new Path();
 
     public LinePanel(){
@@ -43,18 +57,24 @@ public class LinePanel extends JPanel implements ActionListener{
         this.smooth.setToolTipText("Click this button to smooth the drawn path, or Alt-S");
 
         add(this.smooth);
+
+        this.pointLabel = new JLabel("\n jhvgcvjh");
+        this.pointLabel.setFont(new Font("Verdana",1,15));
+
+        add(this.pointLabel);
     }
 
     public void actionPerformed(ActionEvent e) {
         if("smooth".equals(e.getActionCommand()) && this.points.size() > 0){
-            double weight_smooth = 0.8;                     //anywhere between 0.75 and 0.98
-            double tol = 0.001;                             //the tolerance of values
-            double a = 1 - weight_smooth;                   //i don't really know
-            Path p = new Path(this.points);                      //instantiating a new path, with the same points as the input
-            int[] numPoints = p.numPointForArray(12);       //goto Path.java--> numPointForArray() for description
+            double weight_smooth = 0.8;                         //anywhere between 0.75 and 0.98
+            double tol = 0.001;                                 //the tolerance of values
+            double a = 1 - weight_smooth;                       //i don't really know
+            Path p = new Path(this.points);                     //instantiating a new path, with the same points as the input
+            int[] numPoints = p.numPointForArray(12);           //goto Path.java--> numPointForArray() for description
             
             this.path = new Path(p.generatePath(numPoints));     //goto Path.java--> generatePath() for description
             this.path = path.smoother(a, weight_smooth, tol);    //goto Path.java--> smoother() for description
+            this.points.clear();
             this.points = path.pathToArrayList();                
             //converts the path from a Path object back into an ArrayList of points for easy repainting.
             repaint();                                      //repaint using the new smoothed path
@@ -73,7 +93,6 @@ public class LinePanel extends JPanel implements ActionListener{
 
         //drawing the field
         g.drawRect(30, 40, 629, 323); //perimeter of the field
-
 
         //drawing the points the user inputs
         for(int i = 0; i < points.size(); i++) {        //interate through all points and redraw everytime a new point is added
@@ -96,7 +115,6 @@ public class LinePanel extends JPanel implements ActionListener{
         public void mousePressed(MouseEvent e) {
             Point p = e.getPoint();
             Points point = new Points(p);
-
             points.add(point);
             repaint();
         }

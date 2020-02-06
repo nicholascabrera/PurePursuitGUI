@@ -83,4 +83,8 @@ public class Points {
 		
 		return sCurvature;
 	}
+
+	public String toString(){
+		return "(" + this.x + "," + this.y + ")";
+	}
 }

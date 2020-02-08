@@ -1,28 +1,34 @@
+/**
+ * Author: Nicholas P. Cabrera 
+ * Version: 2.2 
+ * Date: Feb 8, 2020
+ */
+
 import java.awt.Point;
 
-public class Points {
+public class PointWPI {
 	private double x;
 	private double y;
 	private double targetV;
 	private double fIndex;
 
-	public Points(double x, double y) {
+	public PointWPI(double x, double y) {
 		this.x = x;
 		this.y = y;
 	}
 
-	public Points(double x, double y, double tarV) {
+	public PointWPI(double x, double y, double tarV) {
 		this.x = x;
 		this.y = y;
 		this.targetV = tarV;
 	}
 
-	public Points(Points p){
+	public PointWPI(PointWPI p){
 		this.x = p.getX();
 		this.y = p.getY();
 	}
 
-	public Points(Point p){
+	public PointWPI(Point p){
 		this.x = p.getX();
 		this.y = p.getY();
 	}
@@ -59,11 +65,11 @@ public class Points {
 		this.y = y;
 	}
 
-	public double distFrom(Points p) {
+	public double distFrom(PointWPI p) {
 		return Math.sqrt(Math.abs(p.getX()-x)*Math.abs(p.getX()-x) + Math.abs(p.getY()-y)*Math.abs(p.getY()-y));
 	}
 
-	public static double curvature(double L, Points cPosition, double rAngle, Points lPoint) {
+	public static double curvature(double L, PointWPI cPosition, double rAngle, PointWPI lPoint) {
 		
 		//variable instantiation
 		double localX = cPosition.getX();

@@ -1,7 +1,13 @@
+/**
+ * Author: Nicholas P. Cabrera 
+ * Version: 2.2 
+ * Date: Feb 8, 2020
+ */
+
 import java.util.ArrayList;
 
 @SuppressWarnings("serial")
-public class Path extends ArrayList<Points>{
+public class Path extends ArrayList<PointWPI>{
 
 	/**
 	The constructors for the Path class.
@@ -11,21 +17,21 @@ public class Path extends ArrayList<Points>{
 		super();
 	}
 
-	public Path(Iterable<Points> path) {
-		for(Points g: path)
-			add(new Points(g.getX(), g.getY()));
+	public Path(Iterable<PointWPI> path) {
+		for(PointWPI g: path)
+			add(new PointWPI(g.getX(), g.getY()));
 	}
 	
-	public Path(Points[] path) {
-		for(Points g: path)
-			add(new Points(g.getX(), g.getY()));
+	public Path(PointWPI[] path) {
+		for(PointWPI g: path)
+			add(new PointWPI(g.getX(), g.getY()));
 	}
 
-	public ArrayList<Points> pathToArrayList() {
+	public ArrayList<PointWPI> pathToArrayList() {
 
-		ArrayList<Points> Pointss = new ArrayList<Points>();
+		ArrayList<PointWPI> Pointss = new ArrayList<PointWPI>();
 
-		for (Points p : this) {
+		for (PointWPI p : this) {
 			Pointss.add(p);
 		}
 
@@ -34,7 +40,7 @@ public class Path extends ArrayList<Points>{
 	
 	/**
 	This code will help with going from path to matrix, and back, as the code for 
-	smoothing the path needs a matrix instead of the current ArrayList of Pointsss
+	smoothing the path needs a matrix instead of the current ArrayList of Points
 	**/
 
 	/**
@@ -59,9 +65,9 @@ public class Path extends ArrayList<Points>{
 	}
 	
 	public static Path matrixToPath(double[][] path){
-		ArrayList<Points> temp = new ArrayList<Points>();
+		ArrayList<PointWPI> temp = new ArrayList<PointWPI>();
 		for(int i = 0; i < path.length; i++)
-			temp.add(new Points(path[i][0],path[i][1]));
+			temp.add(new PointWPI(path[i][0],path[i][1]));
 		Path genPath = new Path(temp);
 		return genPath;
 	}
@@ -137,13 +143,13 @@ public class Path extends ArrayList<Points>{
 	path.
 	**/
 	
-	public ArrayList<Points> generatePath(int[] numPointss){
-		ArrayList<Points> genPath = new ArrayList<Points>();
+	public ArrayList<PointWPI> generatePath(int[] numPointss){
+		ArrayList<PointWPI> genPath = new ArrayList<PointWPI>();
 		double dimensionX = 0; 
 		double dimensionY = 0; 
 		double distanceX = 0; 
 		double distanceY = 0;
-		Points temp = new Points(0,0);
+		PointWPI temp = new PointWPI(0,0);
 		
 		for(int i = 0; i <= size() - 2; i++)
 		{
@@ -153,17 +159,17 @@ public class Path extends ArrayList<Points>{
 			distanceX = dimensionX / (numPointss[i] + 1);
 			distanceY = dimensionY / (numPointss[i] + 1);
 			
-			temp = new Points(get(i).getX(), get(i).getY());
-			genPath.add(new Points(temp.getX(), temp.getY()));
+			temp = new PointWPI(get(i).getX(), get(i).getY());
+			genPath.add(new PointWPI(temp.getX(), temp.getY()));
 
 			for(int x = 0; x < numPointss[i]; x++)
 			{
 				temp.setX(temp.getX() + distanceX);
 				temp.setY(temp.getY() + distanceY);
-				genPath.add(new Points(temp.getX(), temp.getY()));
+				genPath.add(new PointWPI(temp.getX(), temp.getY()));
 			}
 		}
-		genPath.add(new Points(get(size()-1).getX(), get(size()-1).getY()));
+		genPath.add(new PointWPI(get(size()-1).getX(), get(size()-1).getY()));
 		return genPath;
 	}
 
@@ -223,7 +229,7 @@ public class Path extends ArrayList<Points>{
 	such as 0.001, and the issue will be fixed with minimal error.
 	**/
 	
-	public static double curvatureOfPath(Points P, Points Q, Points R){
+	public static double curvatureOfPath(PointWPI P, PointWPI Q, PointWPI R){
 		double xOne = P.getX();
 		double xTwo = Q.getX();
 		double xThree = R.getX();
@@ -258,9 +264,9 @@ public class Path extends ArrayList<Points>{
 		return 0;
 	}
 	
-    public Points closestPoints(Points position, Points cPoints) {
+    public PointWPI closestPoints(PointWPI position, PointWPI cPoints) {
         
-        Points closest = cPoints;
+        PointWPI closest = cPoints;
         int i;
         
         for(i = 1; i < size(); i++) {
@@ -279,7 +285,7 @@ public class Path extends ArrayList<Points>{
 	passes the x(AKA the roots) values on to the lookAheadPoints class.
 	**/
 	
-	public static double lookAhead(Points E,  Points L, Points C, double r) {
+	public static double lookAhead(PointWPI E,  PointWPI L, PointWPI C, double r) {
 		VectorWPI d = new VectorWPI(L,E);
 		VectorWPI f = new VectorWPI(E,C);
 		
@@ -309,7 +315,7 @@ public class Path extends ArrayList<Points>{
 		return -1;
 	}
 
-	public static Points findLookAheadPoints(Path path, double L, Points cPosition, Points lPoints) {
+	public static PointWPI findLookAheadPoints(Path path, double L, PointWPI cPosition, PointWPI lPoints) {
 		double t = 0;
 		double fIndex = 0;
 		int i = 0;
@@ -319,7 +325,7 @@ public class Path extends ArrayList<Points>{
 			if(t >= 0 && t <= 1) {
 				if(fIndex > lPoints.fIndex()) {
 					lPoints.setIndex(fIndex);
-					return lPoints = new Points(path.get(i).getX(), path.get(i).getY());
+					return lPoints = new PointWPI(path.get(i).getX(), path.get(i).getY());
 				}
 			}
 		}

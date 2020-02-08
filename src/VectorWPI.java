@@ -1,20 +1,26 @@
+/**
+ * Author: Nicholas P. Cabrera 
+ * Version: 2.2 
+ * Date: Feb 8, 2020
+ */
+
 public class VectorWPI{
 
-    private Points point1;
-    private Points point2;
+    private PointWPI point1;
+    private PointWPI point2;
     private double magnitude;
     private double direction;
 
     public VectorWPI(){
-        this.point1 = new Points(0,0);
-        this.point2 = new Points(10, 10);
+        this.point1 = new PointWPI(0,0);
+        this.point2 = new PointWPI(10, 10);
         this.magnitude = this.calculateMagnitude();
         this.direction = this.calculateDirection();
     }
 
-    public VectorWPI(Points p1, Points p2){
-        this.point1 = new Points(p1);
-        this.point2 = new Points(p2);
+    public VectorWPI(PointWPI p1, PointWPI p2){
+        this.point1 = new PointWPI(p1);
+        this.point2 = new PointWPI(p2);
         this.magnitude = this.calculateMagnitude();
         this.direction = this.calculateDirection();
     }

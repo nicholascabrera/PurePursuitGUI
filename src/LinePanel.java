@@ -1,6 +1,6 @@
 /**
  * Author: Nicholas P. Cabrera 
- * Version: 2.2 
+ * Version: 2.3
  * Date: Feb 8, 2020
  */
 
@@ -41,6 +41,9 @@ public class LinePanel extends JPanel implements ActionListener{
 
     private ArrayList<PointWPI> points = new ArrayList<PointWPI>();
     private ArrayList<PointWPI> primaryPoints = new ArrayList<PointWPI>();
+    private ArrayList<FieldElement> field = new ArrayList<FieldElement>();
+
+    private final PointWPI FIELDLOCATION = new PointWPI(35, 100);
     
     private Path path = new Path();
 
@@ -75,6 +78,8 @@ public class LinePanel extends JPanel implements ActionListener{
         this.pointLabel.setFont(new Font("Verdana",1,15));
 
         add(this.pointLabel);
+
+        this.createField();
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -111,7 +116,12 @@ public class LinePanel extends JPanel implements ActionListener{
         g2d.setStroke(new BasicStroke(2, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL));
 
         //drawing the field
-        g.drawRect(35, 100, 629, 323); //perimeter of the field
+        for(int i = 0; i < field.size(); i++){
+            for(int j = 0; j < field.get(i).getFigure().size(); j++){
+                LineWPI line = new LineWPI(field.get(i).getFigure().get(j));
+                g.drawLine(line.getStartX(), line.getStartY(), line.getEndX(), line.getEndY());
+            }
+        }
 
         //drawing the points the user inputs
         for(int i = 0; i < points.size(); i++) {    
@@ -148,13 +158,40 @@ public class LinePanel extends JPanel implements ActionListener{
             }
         }
     }
+
+    public void createField(){
+        PointWPI[] fieldDimensions = {new PointWPI(0,0), new PointWPI(623, 0), new PointWPI(623, 323), new PointWPI(0, 323)};
+        //PointWPI[] shieldGeneratorDimensions = {};
+        //PointWPI[] controlPanelDimensions = {};
+        //PointWPI[] controlPanelZoneDimensions = {};
+        //PointWPI[] powerPortDimensions = {};
+
+
+        FieldElement fieldPerimeter = new FieldElement(fieldDimensions, this.FIELDLOCATION);
+        //FieldElement shieldGenerator = new FieldElement();
+        //FieldElement controlPanelRed = new FieldElement();
+        //FieldElement controlPanelBlue = new FieldElement();
+        //FieldElement controlPanelRedZone = new FieldElement();
+        //FieldElement controlPanelBlueZone = new FieldElement();
+        //FieldElement powerPortBlue = new FieldElement();
+        //FieldElement powerPortRed = new FieldElement();
+
+        this.field.add(fieldPerimeter);
+        //this.field.add(shieldGenerator);
+        //this.field.add(controlPanelRed);
+        //this.field.add(controlPanelBlue);
+        //this.field.add(controlPanelRedZone);
+        //this.field.add(controlPanelBlueZone);
+        //this.field.add(powerPortBlue);
+        //this.field.add(powerPortRed);
+    }
     
     private class MouseHandler extends MouseAdapter {
         public void mousePressed(MouseEvent e) {
             Point p = e.getPoint();
             PointWPI point = new PointWPI(p);
             points.add(point);
-            int X = (int)p.getX() - 30;
+            int X = (int)p.getX() - 35;
             int Y = (int)p.getY() - 100;
 
             PointWPI temp = new PointWPI(point);

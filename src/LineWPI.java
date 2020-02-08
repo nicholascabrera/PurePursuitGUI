@@ -1,6 +1,6 @@
 /**
  * Author: Nicholas P. Cabrera 
- * Version: 2.2 
+ * Version: 2.3
  * Date: Feb 8, 2020
  */
 
@@ -44,12 +44,39 @@ public class LineWPI{
         this.endPoint = new PointWPI(this.endX, this.endY);
     }
 
+    public LineWPI(LineWPI someLine){
+        this.startPoint = new PointWPI(someLine.getStartPoint());
+        this.endPoint = new PointWPI(someLine.getEndPoint());
+
+        this.startX = (int)this.startPoint.getX();
+        this.startY = (int)this.startPoint.getY();
+        this.endX = (int)this.endPoint.getX();
+        this.endY = (int)this.endPoint.getY();
+
+    }
+
     public PointWPI getStartPoint(){
         return this.startPoint;
     }
 
     public PointWPI getEndPoint(){
         return this.endPoint;
+    }
+
+    public int getStartX(){
+        return this.startX;
+    }
+
+    public int getStartY(){
+        return this.startY;
+    }
+
+    public int getEndX(){
+        return this.endX;
+    }
+
+    public int getEndY(){
+        return this.endY;
     }
 
     public void setStartPoint(PointWPI set){

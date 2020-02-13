@@ -84,11 +84,11 @@ public class LinePanel extends JPanel implements ActionListener{
 
     public void actionPerformed(ActionEvent e) {
         if("smooth".equals(e.getActionCommand()) && this.points.size() > 0){
-            double weight_smooth = 0.8;                         //anywhere between 0.75 and 0.98
+            double weight_smooth = 0.9;                         //anywhere between 0.75 and 0.98
             double tol = 0.001;                                 //the tolerance of values
             double a = 1 - weight_smooth;                       //i don't really know
             Path p = new Path(this.points);                     //instantiating a new path, with the same points as the input
-            int[] numPoints = p.numPointForArray(12);           //goto Path.java--> numPointForArray() for description
+            int[] numPoints = p.numPointForArray(6);           //goto Path.java--> numPointForArray() for description
             
             this.path = new Path(p.generatePath(numPoints));    //goto Path.java--> generatePath() for description
             this.path = path.smoother(a, weight_smooth, tol);   //goto Path.java--> smoother() for description

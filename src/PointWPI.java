@@ -1,7 +1,7 @@
 /**
  * Author: Nicholas P. Cabrera 
- * Version: 2.3
- * Date: Feb 8, 2020
+ * Version: 2.4
+ * Date: Feb 12, 2020
  */
 
 import java.awt.Point;
@@ -67,6 +67,13 @@ public class PointWPI {
 
 	public double distFrom(PointWPI p) {
 		return Math.sqrt(Math.abs(p.getX()-x)*Math.abs(p.getX()-x) + Math.abs(p.getY()-y)*Math.abs(p.getY()-y));
+	}
+
+	public PointWPI addTo(PointWPI p){
+		int newX = (int)this.x + (int)p.getX();
+		int newY = (int)this.y + (int)p.getY();
+
+		return new PointWPI(newX, newY);
 	}
 
 	public static double curvature(double L, PointWPI cPosition, double rAngle, PointWPI lPoint) {

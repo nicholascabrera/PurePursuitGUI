@@ -1,7 +1,7 @@
 /**
  * Author: Nicholas P. Cabrera 
- * Version: 2.3
- * Date: Feb 8, 2020
+ * Version: 2.4
+ * Date: Feb 12, 2020
  */
 
 public class LineWPI{

@@ -1,7 +1,7 @@
 /**
  * Author: Nicholas P. Cabrera 
- * Version: 2.3
- * Date: Feb 8, 2020
+ * Version: 2.4
+ * Date: Feb 12, 2020
  */
 
 import java.awt.BasicStroke;
@@ -111,7 +111,6 @@ public class LinePanel extends JPanel implements ActionListener{
         Graphics2D g2d = (Graphics2D) g;
 
         //setting draw preferences
-        g.setColor(Color.black);
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.setStroke(new BasicStroke(2, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL));
 
@@ -119,9 +118,12 @@ public class LinePanel extends JPanel implements ActionListener{
         for(int i = 0; i < field.size(); i++){
             for(int j = 0; j < field.get(i).getFigure().size(); j++){
                 LineWPI line = new LineWPI(field.get(i).getFigure().get(j));
+                g.setColor(field.get(i).getColor());
                 g.drawLine(line.getStartX(), line.getStartY(), line.getEndX(), line.getEndY());
             }
         }
+        
+        g.setColor(Color.black);
 
         //drawing the points the user inputs
         for(int i = 0; i < points.size(); i++) {    
@@ -161,29 +163,29 @@ public class LinePanel extends JPanel implements ActionListener{
 
     public void createField(){
         PointWPI[] fieldDimensions = {new PointWPI(0,0), new PointWPI(623, 0), new PointWPI(623, 323), new PointWPI(0, 323)};
-        //PointWPI[] shieldGeneratorDimensions = {};
-        //PointWPI[] controlPanelDimensions = {};
-        //PointWPI[] controlPanelZoneDimensions = {};
-        //PointWPI[] powerPortDimensions = {};
+        PointWPI[] shieldGeneratorDimensions = {new PointWPI(156,0), new PointWPI(216,146), new PointWPI(60,211), new PointWPI(0,65)};
+        PointWPI[] controlPanelDimensions = {new PointWPI(0,0), new PointWPI(30,0), new PointWPI(30,55), new PointWPI(0,55)};
+        PointWPI[] controlPanelZoneDimensions = {new PointWPI(0,0), new PointWPI(218,0), new PointWPI(218, 56), new PointWPI(0, 56)};
+        PointWPI[] initiationLineDimensions = {new PointWPI(0,0), new PointWPI(0, 323)};
 
 
-        FieldElement fieldPerimeter = new FieldElement(fieldDimensions, this.FIELDLOCATION);
-        //FieldElement shieldGenerator = new FieldElement();
-        //FieldElement controlPanelRed = new FieldElement();
-        //FieldElement controlPanelBlue = new FieldElement();
-        //FieldElement controlPanelRedZone = new FieldElement();
-        //FieldElement controlPanelBlueZone = new FieldElement();
-        //FieldElement powerPortBlue = new FieldElement();
-        //FieldElement powerPortRed = new FieldElement();
+        FieldElement fieldPerimeter = new FieldElement(fieldDimensions, this.FIELDLOCATION, Color.BLACK);
+        FieldElement shieldGenerator = new FieldElement(shieldGeneratorDimensions, this.FIELDLOCATION.addTo(new PointWPI(204,55)), Color.BLACK);
+        FieldElement controlPanelRed = new FieldElement(controlPanelDimensions, this.FIELDLOCATION.addTo(new PointWPI(345, 0)), Color.RED);
+        FieldElement controlPanelBlue = new FieldElement(controlPanelDimensions, this.FIELDLOCATION.addTo(new PointWPI(248, 268)), Color.BLUE);
+        FieldElement controlPanelRedZone = new FieldElement(controlPanelZoneDimensions, this.FIELDLOCATION.addTo(new PointWPI(207,0)), Color.RED);
+        FieldElement controlPanelBlueZone = new FieldElement(controlPanelZoneDimensions, this.FIELDLOCATION.addTo(new PointWPI(207,267)), Color.BLUE);
+        FieldElement initiationLineOne = new FieldElement(initiationLineDimensions, this.FIELDLOCATION.addTo(new PointWPI(120,0)), Color.BLACK);
+        FieldElement initiationLineTwo = new FieldElement(initiationLineDimensions, this.FIELDLOCATION.addTo(new PointWPI(503,0)), Color.BLACK);
 
         this.field.add(fieldPerimeter);
-        //this.field.add(shieldGenerator);
-        //this.field.add(controlPanelRed);
-        //this.field.add(controlPanelBlue);
-        //this.field.add(controlPanelRedZone);
-        //this.field.add(controlPanelBlueZone);
-        //this.field.add(powerPortBlue);
-        //this.field.add(powerPortRed);
+        this.field.add(controlPanelRed);
+        this.field.add(controlPanelBlue);
+        this.field.add(controlPanelRedZone);
+        this.field.add(controlPanelBlueZone);
+        this.field.add(shieldGenerator);
+        this.field.add(initiationLineOne);
+        this.field.add(initiationLineTwo);
     }
     
     private class MouseHandler extends MouseAdapter {

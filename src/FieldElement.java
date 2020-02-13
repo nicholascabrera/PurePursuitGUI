@@ -1,9 +1,10 @@
 /**
  * Author: Nicholas P. Cabrera 
- * Version: 2.3
- * Date: Feb 8, 2020
+ * Version: 2.4
+ * Date: Feb 12, 2020
  */
 
+import java.awt.Color;
 import java.util.ArrayList;
 
  public class FieldElement{
@@ -13,6 +14,8 @@ import java.util.ArrayList;
     private int x, y;
 
     private ArrayList<LineWPI> figure = new ArrayList<LineWPI>();
+
+    private Color myColor;
 
     public FieldElement(){
     }
@@ -26,22 +29,26 @@ import java.util.ArrayList;
         this.configFigure();
     }
 
-    public FieldElement(ArrayList<PointWPI> sides, PointWPI location){
+    public FieldElement(ArrayList<PointWPI> sides, PointWPI location, Color color){
         this.x = (int)location.getX();
         this.y = (int)location.getY();
 
         this.sides = sides;
 
+        this.myColor = color;
+
         this.configFigure();
     }
 
-    public FieldElement(PointWPI[] side, PointWPI location){
+    public FieldElement(PointWPI[] side, PointWPI location, Color color){
         this.x = (int)location.getX();
         this.y = (int)location.getY();
 
         for(PointWPI point: side){
             this.sides.add(point);
         }
+
+        this.myColor = color;
 
         this.configFigure();
     }
@@ -60,16 +67,6 @@ import java.util.ArrayList;
                 side = new LineWPI((int)(sides.get(i).getX() + this.x), (int)(sides.get(i).getY() + this.y), (int)(sides.get(sides.size() - 1).getX() + this.x), (int)(sides.get(sides.size() - 1).getY() + this.y));
                 figure.add(side);
             }
-
-            /*
-            if(i > 0 && i + 1 != sides.size()){
-                side = new LineWPI((int)(sides.get(i).getX() + this.x), (int)(sides.get(i).getY() + this.y), (int)(sides.get(i+1).getX() + this.x), (int)(sides.get(i+1).getX() + this.x));
-                figure.add(side);
-            }else{
-                side = new LineWPI((int)(sides.get(i).getX() + this.x), (int)(sides.get(i).getY() + this.y), (int)(sides.get(sides.size() - 1).getX() + this.x), (int)(sides.get(sides.size() - 1).getX() + this.x));
-                figure.add(side);
-            }
-            */
         }
     }
 
@@ -84,5 +81,13 @@ import java.util.ArrayList;
 
     public ArrayList<LineWPI> getFigure(){
         return this.figure;
+    }
+
+    public void setColor(Color color){
+        this.myColor = color;
+    }
+
+    public Color getColor(){
+        return this.myColor;
     }
  }
